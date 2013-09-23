@@ -47,7 +47,6 @@ qaide.tickets.forEach(val,index,array) {
 	    function puts(error, stdout, stderr) { sys.puts(stdout) }
 	    var pullNumber = pull.slice(-4);
 	    pull_requests_to_qa += pullNumber
-	    
 	  }
 	  else console.log(response.statusCode + " Error for " + url)
 	  
