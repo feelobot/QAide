@@ -1,20 +1,31 @@
 {
   "author": "Felix Rodriguez",
   "description": "QA tool for making and deploying multi project qa branches for testing",
-  "name": "decipher",
-  "subdomain": "feelobot-decipher",
+  "name": "qaide",
+  "subdomain": "feelobot-qaide",
   "dependencies": {
     "github": "*",
     "commander": "*",
     "request": "*"
   },
   "main": "qaide.js",
+  "scripts": {
+    "start": "node qaide.js"
+  },
   "keywords": [
     "qa",
     "aide"
   ],
   "version": "0.0.1",
   "engines": {
-    "node": "0.8.x"
-  }
+    "node": "*"
+  },
+  "readmeFilename": "README.md",
+  "gitHead": "0da51d80062f0b1344ea9c632e8a9ca2ce10cc8d",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/feelobot/QAide.git"
+  },
+  "license": "MIT"
 }
