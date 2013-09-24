@@ -40,19 +40,20 @@ console.log(ticket_url);
 
 function puts(error, stdout, stderr) { 
   sys.puts(stdout) 
-  sys.puts(stderr)
 }
 
 request(ticket_url, lighthouse_authenticate, function (error, response, body) {
   if (!error && response.statusCode == 200) {
   	if (body.match(config.projects["api"])) {
       var last_api = body.match(config.projects["api"]).pop()
-      var branch = get_branch_name(last_api)
-      //exec("cd ~/code/breport/ && git checkout " + branch + " && git pull origin " + branch //+ " gitc qa " + pull_requests_num, puts);
+      var pull_requests_num = last_api.match(/[0-9]+/)[0]
+      console.log(pull_requests_num);
+      var branch = "master"
+      exec("cd ~/Documents/code/api/ && git checkout " + branch + " && git pull origin " + branch + " && echo y | gitc qa " + pull_requests_num,puts);
     }
     if (body.match(config.projects["breport"])) {
       var last_breport = body.match(config.projects["breport"]).pop()
-      pull_requests_num = last_breport.match(/[0-9]+/)[0]
+      var pull_requests_num = last_breport.match(/[0-9]+/)[0]
       console.log(pull_requests_num);
       github.pullRequests.get({
         user: "br",
@@ -61,18 +62,15 @@ request(ticket_url, lighthouse_authenticate, function (error, response, body) {
       },
       function(err, res) {
         var base_branch = res["base"]["ref"]
-        var head_branch = res["head"]["label"]
-        console.log(developer)
-        console.log(head);
-
-        console.log(branch);
-        var qa_branch = "qa_" + base_branch + "_" + qaide.user
-        exec("cd ~/Documents/code/breport/ && git checkout " + base_branch + " && git pull origin " + base_branch + " && git branch -D " + qa_branch " && git checkout -b " + qa_branch + " && git merge " + head_branch + " && git push -u origin " + qa_branch, puts);
+        console.log(base_branch);
+        var head_branch_unformatted = res["head"]["label"]
+        var developer = head_branch_unformatted.match(/([a-zA-Z]+)/)[0]
+        var dev_branch = head_branch_unformatted.match(/\:(.*)/)[0].slice(1)
+        head_branch = developer + "/" + dev_branch
+        console.log(head_branch);
+        exec("cd ~/Documents/code/breport/ && git checkout " + branch + " && git pull origin " + branch + " && echo y | gitc qa " + pull_requests_num,puts);
       });
     }
-  	else { 
-  		console.log("Project Undefined");
-  	}
   }
  	else console.log(response.statusCode + " Error for " + url)
 });	
