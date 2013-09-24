@@ -48,8 +48,8 @@ request(ticket_url, lighthouse_authenticate, function (error, response, body) {
       var last_api = body.match(config.projects["api"]).pop()
       var pull_requests_num = last_api.match(/[0-9]+/)[0]
       console.log(pull_requests_num);
-      var branch = "master"
-      exec("cd ~/Documents/code/api/ && git checkout " + branch + " && git pull origin " + branch + " && echo y | gitc qa " + pull_requests_num,puts);
+      var base_branch = "master"
+      exec("cd ~/Documents/code/api/ && git checkout " + base_branch + " && git pull origin " + base_branch + " && echo y | gitc qa " + pull_requests_num,puts);
     }
     if (body.match(config.projects["breport"])) {
       var last_breport = body.match(config.projects["breport"]).pop()
@@ -68,7 +68,7 @@ request(ticket_url, lighthouse_authenticate, function (error, response, body) {
         var dev_branch = head_branch_unformatted.match(/\:(.*)/)[0].slice(1)
         head_branch = developer + "/" + dev_branch
         console.log(head_branch);
-        exec("cd ~/Documents/code/breport/ && git checkout " + branch + " && git pull origin " + branch + " && echo y | gitc qa " + pull_requests_num,puts);
+        exec("cd ~/Documents/code/breport/ && git checkout " + base_branch + " && git pull origin " + base_branch + " && echo y | gitc qa " + pull_requests_num,puts);
       });
     }
   }
