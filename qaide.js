@@ -67,7 +67,7 @@ request(ticket_url, lighthouse_authenticate, function (error, response, body) {
 
         console.log(branch);
         var qa_branch = "qa_" + base_branch + "_" + qaide.user
-        exec("cd ~/Documents/code/breport/ && git checkout " + base_branch + " && git pull origin " + base_branch + " && git branch -D " + qa_branch " && git checkout -b " + qa_branch + " && git merge " + head_branch + " && git push -u origin " + qa_branch", puts);
+        exec("cd ~/Documents/code/breport/ && git checkout " + base_branch + " && git pull origin " + base_branch + " && git branch -D " + qa_branch " && git checkout -b " + qa_branch + " && git merge " + head_branch + " && git push -u origin " + qa_branch, puts);
       });
     }
   	else { 
