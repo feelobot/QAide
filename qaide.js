@@ -30,7 +30,7 @@ var deploy = "cd  " + config.shipit_dir + " && "
 qaide
   .version('0.0.1')
   .option('-t, --ticket [number]' , 'the ticket to qa')
-  .option('-e, --environment', 'Specify the staging environment to deploy to')
+  .option('-e, --env [value]', 'Specify the staging environment to deploy to')
   .option('-u, --user [value]' , 'the user to deploy as')  
   .option('-o, --options', 'other deploy options i.e. MIGRATIONS=1')
   .parse(process.argv);
@@ -65,10 +65,15 @@ request(ticket_url, lighthouse_authenticate, function (error, response, body) {
         console.log(base_branch);
         var head_branch_unformatted = res["head"]["label"]
         var developer = head_branch_unformatted.match(/([a-zA-Z]+)/)[0]
+        console.log(developer)
         var dev_branch = head_branch_unformatted.match(/\:(.*)/)[0].slice(1)
         head_branch = developer + "/" + dev_branch
-        console.log(head_branch);
+        var qa_branch = "qa_" + base_branch + "_" + config.github_username
+        var server = config.environments[qaide.env]["breport"]
+        var deploy = "cd " + config.shipit_dir + " && bundle exec cap " + server + " deploy USER=" + qaide.user + " BRANCH=" + qa_branch
         exec("cd ~/Documents/code/breport/ && git checkout " + base_branch + " && git pull origin " + base_branch + " && echo y | gitc qa " + pull_requests_num,puts);
+        console.log(deploy);
+        exec(deploy ,puts);
       });
     }
   }
